@@ -37,6 +37,3 @@
 
 # Ignore Byebug command history file.
 .byebug_history
-
-# allow heroku auto assets precompilation
-public/assets/**

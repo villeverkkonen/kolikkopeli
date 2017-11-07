@@ -1,0 +1,119 @@
+<div class="content">
+
+	<div class="game_on">
+		<div class="game_options">
+			<div class="current_player">
+				<span>Pelaaja: </span>
+				<span id="current_player_username"><%= @user.username unless @user.nil? %></span>
+			</div>
+
+			<div id="info_buttons">
+				<button class="btn btn-default info_buttons" data-toggle="collapse" data-target="#winning_lines">Voittolinjat</button>
+
+				<%= link_to "Peliohjeet", { controller: 'game_system', action: 'info' }, class: "btn btn-default", id: "game_info", data: { modal: true } %>
+			</div>
+
+			<div id="winning_lines" class="collapse info_buttons">
+				<span>
+					A A A = <span id="winning_line_AAA"></span><br>
+					B B B = <span id="winning_line_BBB"></span><br>
+					C C C = <span id="winning_line_CCC"></span><br>
+					A B C = <span id="winning_line_ABC"></span><br>
+					9 x A = <span id="winning_line_9A"></span><br>
+					9 x B = <span id="winning_line_9B"></span><br>
+					9 x C = <span id="winning_line_9C"></span>
+				</span>
+			</div>
+
+			<div class="slots">
+				<p id="upper_slots_row"># # #</p>
+				<p id="middle_slots_row"># # #</p>
+				<p id="bottom_slots_row"># # #</p>
+			</div>
+
+			<h3 id="winner">Onnea peliin!</h3>
+
+			<button id="shuffle_slots_button" onclick="shuffle_slots()" class="btn btn-success">Pelaa</button>
+
+			<br>
+
+			<div id="bet_div">
+				<span id="game_money">Rahaa pelattavana: </span>
+				<span id="game_money_amount"><%= @user.game_money.to_s unless @user.nil? %></span>
+				<br>
+				<span id="game_bet">Panos: </span>
+				<span id="game_bet_amount">1</span>
+				<div id="bet_lower">
+					<button onclick="lower_bet()" class="btn btn-warning">-</button>
+				</div>
+				<div id="bet_higher">
+					<button onclick="higher_bet()" class="btn btn-warning">+</button>
+				</div>
+			</div>
+
+			<br>
+
+			<div class="end_game" id="end_game_form" data-url="<%= url_for(controller: 'game_system', action: 'end_game') %>">
+				<button class="btn btn-primary" id="end_game_button">Lopeta peli</button>
+			</div>
+		</div>
+
+		<div class="high_scores">
+			<h3>High Scores</h3>
+			<table class="table table-bordered" id="high_scores_table">
+				<thead>
+					<tr>
+						<th>Pelaaja</th>
+						<th>Pisteet</th>
+					</tr>
+				</thead>
+				<tbody id="high_score_table_body">
+					<% @all_high_scores.order("game_score DESC").limit(5).each do |high_score| %>
+						<tr>
+							<td><%= high_score.username %></td>
+							<td><%= high_score.game_score.to_s %></td>
+						</tr>
+					<% end %>
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="start_game" id="start_game_form" data-url="<%= url_for(controller: 'game_system', action: 'start_game') %>">
+		<label for="username">Nimimerkki</label>
+		<br>
+		<input type="text" name="username" id="username" autofocus="true">
+		<br><br>
+		<button class="btn btn-primary" id="start_game_button">Aloita peli</button>
+	</div>
+
+	<div class="game_over">
+		<span>Peli loppui.</span>
+		<br>
+		<span class="eng_game_text">Pisteesi: </span>
+		<span class="eng_game_text" id="end_game_score"></span>
+
+		<br><br>
+
+		<div class="new_game" id="new_game_form" data-url="<%= url_for(controller: 'game_system', action: 'new_game') %>">
+			<button class="btn btn-primary" id="new_game_button">Uusi peli</button>
+		</div>
+	</div>
+
+	<div id="winning_prices">
+		<div id="AAA"><%= @AAA %></div>
+		<div id="BBB"><%= @BBB %></div>
+		<div id="CCC"><%= @CCC %></div>
+		<div id="ABC"><%= @ABC %></div>
+		<div id="A9"><%= @A9 %></div>
+		<div id="B9"><%= @B9 %></div>
+		<div id="C9"><%= @C9 %></div>
+
+		<div id="bet_1"><%= @bet_1 %></div>
+		<div id="bet_2"><%= @bet_2 %></div>
+		<div id="bet_3"><%= @bet_3 %></div>
+		<div id="bet_4"><%= @bet_4 %></div>
+		<div id="bet_5"><%= @bet_5 %></div>
+	</div>
+
+</div>

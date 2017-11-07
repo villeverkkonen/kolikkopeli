@@ -1,0 +1,33 @@
+div#mainModal.modal.in {
+	width: 100%;
+	left: 0; 
+}
+
+.modal-body {
+	display: inline-block;
+}
+
+div.modal-content {
+	padding-left: 40px;
+	padding-right: 40px;
+	border-radius: 20px;
+	background-color: #7FFFD4;
+}
+
+.modal-dialog {
+	width: 50%;
+}
+
+div.modal-content div.modal-header {
+	
+    width: 50%;
+    border: none;
+}
+
+.modal-title {
+	text-align: center;
+}
+
+div.modal-header button {
+	float: left;
+}

@@ -1,0 +1,13 @@
+$(".game_on").css("display", "none");
+$(".end_game").css("display", "none");
+$(".game_over").css("display", "none");
+$(".start_game").css("display", "block");
+
+$("#username").val("");
+$("#username").focus();
+
+var table = document.getElementById("high_scores_table");
+
+for (var i = 0, row; row = table.rows[i]; i++) {
+   row.removeAttribute("style");
+}

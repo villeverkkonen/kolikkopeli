@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Kolikkopeli</title>
+    <%= csrf_meta_tags %>
+
+    <link rel="icon" 
+      type="image/png" 
+      href="<%= asset_path 'favicon.png' %>">
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <%= yield %>
+    <div id="modal-holder"></div>
+  </body>
+</html>

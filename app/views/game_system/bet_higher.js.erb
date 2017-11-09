@@ -1,0 +1,15 @@
+<% if @user_not_found %>
+	alert("Käyttäjää ei löydy!");
+<% else %>
+	// Set new current_bet
+	$("#game_bet_amount").text("<%= @current_bet %>");
+
+	// Set new winning prices
+	$("#winning_line_AAA").text("<%= @AAA * @current_bet %>");
+	$("#winning_line_BBB").text("<%= @BBB * @current_bet %>");
+	$("#winning_line_CCC").text("<%= @CCC * @current_bet %>");
+	$("#winning_line_ABC").text("<%= @ABC * @current_bet %>");
+	$("#winning_line_9A").text("<%= @A9 * @current_bet %>");
+	$("#winning_line_9B").text("<%= @B9 * @current_bet %>");
+	$("#winning_line_9C").text("<%= @C9 * @current_bet %>");
+<% end %>

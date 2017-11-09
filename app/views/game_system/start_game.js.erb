@@ -3,11 +3,11 @@ $(".game_on").css("display", "block");
 $(".game_options").css("display", "block");
 $(".end_game").css("display", "block");
 
-$("#game_bet_amount").text("1");
 $("#upper_slots_row").text("# # #");
 $("#middle_slots_row").text("# # #");
 $("#bottom_slots_row").text("# # #");
-$("#winner").text("Onnea peliin!");
 
 $("#current_player_username").text("<%= @user.username %>");
-$("#game_money_amount").text("<%= @user.game_money.to_s %>");
+$("#game_money_amount").text("<%= @user.game_money %>");
+$("#game_bet_amount").text("<%= @current_bet %>");
+$("#winner").text("Onnea peliin!");

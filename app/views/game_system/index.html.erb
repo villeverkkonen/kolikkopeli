@@ -15,13 +15,13 @@
 
 			<div id="winning_lines" class="collapse info_buttons">
 				<span>
-					A A A = <span id="winning_line_AAA"></span><br>
-					B B B = <span id="winning_line_BBB"></span><br>
-					C C C = <span id="winning_line_CCC"></span><br>
-					A B C = <span id="winning_line_ABC"></span><br>
-					9 x A = <span id="winning_line_9A"></span><br>
-					9 x B = <span id="winning_line_9B"></span><br>
-					9 x C = <span id="winning_line_9C"></span>
+					A A A = <span id="winning_line_AAA"><%= @AAA %></span><br>
+					B B B = <span id="winning_line_BBB"><%= @BBB %></span><br>
+					C C C = <span id="winning_line_CCC"><%= @CCC %></span><br>
+					A B C = <span id="winning_line_ABC"><%= @ABC %></span><br>
+					9 x A = <span id="winning_line_9A"><%= @A9 %></span><br>
+					9 x B = <span id="winning_line_9B"><%= @B9 %></span><br>
+					9 x C = <span id="winning_line_9C"><%= @C9 %></span>
 				</span>
 			</div>
 
@@ -31,29 +31,29 @@
 				<p id="bottom_slots_row"># # #</p>
 			</div>
 
-			<h3 id="winner">Onnea peliin!</h3>
+			<h3 id="winner"><%= @winning_text %></h3>
 
-			<button id="shuffle_slots_button" onclick="shuffle_slots()" class="btn btn-success">Pelaa</button>
+			<button id="shuffle_slots_button" class="btn btn-success">Pelaa</button>
 
 			<br>
 
 			<div id="bet_div">
 				<span id="game_money">Rahaa pelattavana: </span>
-				<span id="game_money_amount"><%= @user.game_money.to_s unless @user.nil? %></span>
+				<span id="game_money_amount"><%= @game_money.to_s %></span>
 				<br>
 				<span id="game_bet">Panos: </span>
-				<span id="game_bet_amount">1</span>
-				<div id="bet_lower">
-					<button onclick="lower_bet()" class="btn btn-warning">-</button>
+				<span id="game_bet_amount"><%= @current_bet %></span>
+				<div id="bet_lower" data-url="<%= url_for controller: 'game_system', action: 'bet_lower' %>">
+					<button id="bet_lower_button" class="btn btn-warning">-</button>
 				</div>
-				<div id="bet_higher">
-					<button onclick="higher_bet()" class="btn btn-warning">+</button>
+				<div id="bet_higher" data-url="<%= url_for controller: 'game_system', action: 'bet_higher' %>">
+					<button id="bet_higher_button" class="btn btn-warning">+</button>
 				</div>
 			</div>
 
 			<br>
 
-			<div class="end_game" id="end_game_form" data-url="<%= url_for(controller: 'game_system', action: 'end_game') %>">
+			<div class="end_game" id="end_game_form">
 				<button class="btn btn-primary" id="end_game_button">Lopeta peli</button>
 			</div>
 		</div>
@@ -79,7 +79,7 @@
 		</div>
 	</div>
 
-	<div class="start_game" id="start_game_form" data-url="<%= url_for(controller: 'game_system', action: 'start_game') %>">
+	<div class="start_game" id="start_game_form">
 		<label for="username">Nimimerkki</label>
 		<br>
 		<input type="text" name="username" id="username" autofocus="true">
@@ -95,7 +95,7 @@
 
 		<br><br>
 
-		<div class="new_game" id="new_game_form" data-url="<%= url_for(controller: 'game_system', action: 'new_game') %>">
+		<div class="new_game" id="new_game_form">
 			<button class="btn btn-primary" id="new_game_button">Uusi peli</button>
 		</div>
 	</div>

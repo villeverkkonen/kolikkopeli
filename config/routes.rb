@@ -7,6 +7,9 @@ Rails.application.routes.draw do
   post 'start_game' => 'game_system#start_game'
   post 'new_game' => 'game_system#new_game'
   post 'end_game' => 'game_system#end_game'
+  post 'shuffle_slots' => 'game_system#shuffle_slots'
+  post 'bet_lower' => 'game_system#bet_lower'
+  post 'bet_higher' => 'game_system#bet_higher'
 
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

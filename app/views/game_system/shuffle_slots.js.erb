@@ -1,0 +1,55 @@
+<% if @user_not_found %>
+	alert("Käyttäjää ei löydy!");
+<% else %>
+	<% if @game_over %>
+		$(".game_options").css("display", "none");
+		$(".end_game").css("display", "none");
+		$(".game_over").css("display", "block");
+		$("#end_game_score").text("<%= @game_money %>");
+
+		$("#high_score_table_body").empty();
+
+		<% @all_high_scores.order("game_score DESC").limit(5).each do |high_score| %>
+
+			if ("<%= @username %>".valueOf() == "<%= high_score.username %>".valueOf() &&
+				"<%= @game_money %>".valueOf() == "<%= high_score.game_score %>".valueOf()) {
+				$("#high_score_table_body").append("<tr style='background-color: #ffcc66;'>" +
+					"<td>" + "<%= high_score.username %>" + "</td>" +
+					"<td>" + "<%= high_score.game_score.to_s %>" + "</td>" +
+					"</tr>");
+			} else {
+				$("#high_score_table_body").append("<tr>" +
+					"<td>" + "<%= high_score.username %>" + "</td>" +
+					"<td>" + "<%= high_score.game_score.to_s %>" + "</td>" +
+					"</tr>");
+			}
+		<% end %>
+
+	<% else %>
+
+		// If user won something, add right text, else just a line break
+		<% if @winning_text %>
+			$("#winner").text("<%= @winning_text %>");
+		<% else %>
+			$("#winner").empty();
+			$("#winner").append("<br>");
+		<% end %>
+
+		// If jackpot was won, append jackpot-colors, else return normal color
+		<% if @jackpot %>
+			$(".slots").css("background-color", "#FF00FF");
+		<% else %>
+			$(".slots").css("background-color", "#DCDCDC");
+		<% end %>
+
+		// Append new game_money_amount
+		$("#game_money_amount").text("<%= @game_money_amount %>");
+
+		// Append new slots
+		$("#upper_slots_row").text("<%= @upper_slots %>");
+		$("#middle_slots_row").text("<%= @middle_slots %>");
+		$("#bottom_slots_row").text("<%= @bottom_slots %>");
+
+		$("#game_bet_amount").text("<%= @bet %>");
+	<% end %>
+<% end %>

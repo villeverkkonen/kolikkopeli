@@ -1,37 +1,192 @@
 class GameSystemController < ApplicationController
 
+  before_action :set_slots, :set_winning_prices
+
   respond_to :html, :json, :js
 
   def index
     @all_high_scores = HighScore.all
+  end
 
-    @AAA = 8
-    @BBB = 15
-    @CCC = 20
-    @ABC = 10
-    @A9 = 150
-    @B9 = 350
-    @C9 = 500
+  # This happens every spin
+  def shuffle_slots
+    # By default game_over is false
+    @game_over = false
 
-    @bet_1 = 0
-    @bet_2 = 0.2
-    @bet_3 = 0.45
-    @bet_4 = 0.7
-    @bet_5 = 1
+    @user = User.find_by(username: params[:username])
+
+    # If someone changed username through console do nothing but alert
+    if !@user.nil?
+
+      @bet = @user.current_bet
+
+      shuffle(@slots)
+
+      upper_slots_array = shuffle_action(@slots)
+      middle_slots_array = shuffle_action(@slots)
+      bottom_slots_array = shuffle_action(@slots)
+
+      # Lower player's money by the amount of the bet
+      lower_game_money_amount(@user, @bet)
+
+      # Add possible winning money to player's money
+      check_winning_price(upper_slots_array, middle_slots_array, bottom_slots_array)
+
+      @game_money_amount = @user.game_money
+
+      if @game_money_amount < @bet
+        @bet = @game_money_amount
+        @user.current_bet = @bet
+        @user.save
+      end
+
+      # If money is over, game is over
+      # Else shuffle slots and append them to the view
+      if @game_money_amount == 0
+        @game_over = true
+        end_game
+      else
+
+        @upper_slots = append_slots_to_string(upper_slots_array)
+        @middle_slots = append_slots_to_string(middle_slots_array)
+        @bottom_slots = append_slots_to_string(bottom_slots_array)
+
+      end
+    else
+      @user_not_found = true
+    end
+
+    p "Current bet: " + @bet.to_s
+    p "Current money: " + @game_money_amount.to_s
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  def check_winning_price(upper_slots, middle_slots, bottom_slots)
+    @jackpot = false
+
+    if upper_slots[0] == "A" &&
+       upper_slots[1] == "A" &&
+       upper_slots[2] == "A" &&
+       middle_slots[0] == "A" &&
+       middle_slots[1] == "A" &&
+       middle_slots[2] == "A" &&
+       bottom_slots[0] == "A" &&
+       bottom_slots[1] == "A" &&
+       bottom_slots[2] == "A"
+
+      add_price_to_game_money(@A9)
+      @jackpot = true
+
+    elsif upper_slots[0] == "B" &&
+          upper_slots[1] == "B" &&
+          upper_slots[2] == "B" &&
+          middle_slots[0] == "B" &&
+          middle_slots[1] == "B" &&
+          middle_slots[2] == "B" &&
+          bottom_slots[0] == "B" &&
+          bottom_slots[1] == "B" &&
+          bottom_slots[2] == "B"
+
+      add_price_to_game_money(@B9)
+      @jackpot = true
+
+    elsif upper_slots[0] == "C" &&
+          upper_slots[1] == "C" &&
+          upper_slots[2] == "C" &&
+          middle_slots[0] == "C" &&
+          middle_slots[1] == "C" &&
+          middle_slots[2] == "C" &&
+          bottom_slots[0] == "C" &&
+          bottom_slots[1] == "C" &&
+          bottom_slots[2] == "C"
+
+      add_price_to_game_money(@C9)
+      @jackpot = true
+
+    elsif middle_slots[0] == "A" &&
+          middle_slots[1] == "A" &&
+          middle_slots[2] == "A"
+
+      add_price_to_game_money(@AAA)
+
+    elsif middle_slots[0] == "B" &&
+          middle_slots[1] == "B" &&
+          middle_slots[2] == "B"
+
+      add_price_to_game_money(@BBB)
+
+    elsif middle_slots[0] == "C" &&
+          middle_slots[1] == "C" &&
+          middle_slots[2] == "C"
+
+      add_price_to_game_money(@CCC)
+
+    elsif middle_slots[0] == "A" &&
+          middle_slots[1] == "B" &&
+          middle_slots[2] == "C"
+
+      add_price_to_game_money(@ABC)
+
+    else
+     @winning_text = nil
+    end
+  end
+
+  def add_price_to_game_money(amount)
+    winning_amount = amount * @bet
+    @winning_text = "Voitit " + winning_amount.to_s
+    @user.game_money += winning_amount
+    @user.save
+  end
+
+  def append_slots_to_string(slots_array)
+    slots_string = ""
+    i = 0
+    while i < 3
+      slots_string << slots_array[i] + " "
+      i += 1
+    end
+    return slots_string
+  end
+
+  def shuffle(slots)
+    i = slots.length - 1
+    while i > 0
+      j = rand(0...slots.length)
+      x = slots[i]
+      slots[i] = slots[j]
+      slots[j] = x
+
+      i -= 1
+    end
+  end
+
+  def shuffle_action(slots)
+    randomized_slots = [
+      slots[rand(0...slots.length)],
+      slots[rand(0...slots.length)],
+      slots[rand(0...slots.length)]
+    ]
+
+    return randomized_slots
+  end
+
+  def lower_game_money_amount(user, bet)
+    user.game_money -= bet
+    user.save
   end
 
   def start_game
-    @user = User.find_by(username: params[:username])
+    @user = User.find_or_create_by(username: params[:username])
+    @game_money = 20
+    @current_bet = 1
 
-    if @user.nil?
-      @user = User.new
-      @user.username = params[:username]
-      @user.game_money = 20
-      @user.save
-    else
-      @user.game_money = 20
-      @user.save
-    end
+    @user.game_money = @game_money
+    @user.current_bet = @current_bet
+    @user.save
 
     respond_to do |format|
       format.js
@@ -47,27 +202,34 @@ class GameSystemController < ApplicationController
 
   def end_game
     @user = User.find_by(username: params[:username])
-    @username = params[:username]
-    @game_money = params[:game_money].to_i || 0
 
-    # Money has run out, don't bother to create HighScore and delete it immediately
-    if @game_money > 0
-      @high_score = HighScore.new
-      @high_score.username = @user.username
-      @high_score.game_score = @game_money
-      @high_score.save
+    # If someone changed username through console do nothing but alert
+    if !@user.nil?
+
+      @username = @user.username
+      @game_money_amount = @user.game_money || 0
+
+      # Money has run out, don't bother to create HighScore and delete it immediately
+      if @game_money_amount > 0
+        high_score = HighScore.new
+        high_score.username = @username
+        high_score.game_score = @game_money_amount
+        high_score.save
+      end
+
+      # Only 5 High Scores allowed at a time, delete worst if over 5
+      if HighScore.any? && HighScore.all.size > 5
+        HighScore.all.order("game_score DESC").last.destroy
+      end
+
+      # all_high_scores for end_game.js.erb to update high score table
+      @all_high_scores = HighScore.all
+
+      # Destroy user, not needed anymore
+      @user.destroy
+    else
+      @user_not_found = true
     end
-
-    # Only 5 High Scores allowed at a time, delete worst if over 5
-    if HighScore.any? && HighScore.all.size > 5
-      HighScore.all.order("game_score DESC").last.destroy
-    end
-
-    # all_high_scores for end_game.js.erb to update high score table
-    @all_high_scores = HighScore.all
-
-    # Destroy user, not needed anymore
-    @user.destroy
 
     respond_to do |format|
       format.js
@@ -78,4 +240,70 @@ class GameSystemController < ApplicationController
     respond_modal_with nil
   end
 
+  def bet_lower
+    @user = User.find_by(username: params[:username])
+
+    # If someone changed username through console do nothing but alert
+    if !@user.nil?
+
+      @current_bet = @user.current_bet
+
+      if @current_bet > 1
+        @current_bet -= 1
+        @user.current_bet = @current_bet
+        @user.save
+      end
+
+    else
+      @user_not_found = true
+    end
+
+    p "Alempi panos: " + @current_bet.to_s
+
+    respond_to do |format|
+        format.js
+      end
+  end
+
+  def bet_higher
+    @user = User.find_by(username: params[:username])
+
+    # If someone changed username through console do nothing but alert
+    if !@user.nil?
+      @current_bet = @user.current_bet
+
+      if @current_bet < 5
+        @current_bet += 1
+        @user.current_bet = @current_bet
+        @user.save
+      end
+    else
+      @user_not_found = true
+    end
+
+    p "Ylempi panos: " + @current_bet.to_s
+
+    respond_to do |format|
+      format.js
+    end
+  end
+
+  private
+    def set_slots
+      @slots = [
+      "A", "A", "A", "A",
+      "B", "B", "B",
+      "C", "C"
+    ]
+    end
+
+    def set_winning_prices
+      @AAA = 5
+      @BBB = 10
+      @CCC = 20
+      @ABC = 8
+      @A9 = 100
+      @B9 = 200
+      @C9 = 300
+    end
 end

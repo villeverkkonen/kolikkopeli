@@ -1,4 +1,9 @@
-// Ajax-form for starting game
+// Wishing luck just for fun
+$(document).ready(function() {
+  console.log("Onnea peliin!");
+});
+
+// Start game
 $(document).ready(function() {
   $('#start_game_button').on('click', function() {
     
@@ -10,40 +15,42 @@ $(document).ready(function() {
       $.ajax({
         type  : 'POST',
         data: { "username" : $("#username").val() },
-        url   : $("#start_game_form").data("url")
-    });
+        url   : "start_game"
+      });
 
-	} else {
-      alert("Keksi erikoismerkitön nimimerkki!");
-      $("#username").focus();
-	}
+  	} else {
+        alert("Keksi erikoismerkitön nimimerkki!");
+        $("#username").focus();
+  	}
   });
 });
 
-// end_game() is activated when money is out or clicked "Lopeta peli"
+// End game
 $(document).ready(function() {
   $('#end_game_button').on('click', function() {
-    end_game();
+    $.ajax({
+      type  : 'POST',
+      data  : { "username" : $("#current_player_username").text() },
+      url   : "end_game"
+  });
   });
 });
 
-// Ajax-form for ending game
-function end_game() {
-  $.ajax({
-      type  : 'POST',
-      data  : { "username" : $("#current_player_username").text(),
-                "game_money" : $("#game_money_amount").text()
-              },
-      url   : $("#end_game_form").data('url')
-  });
-};
+// // Ajax-form for ending game
+// function end_game() {
+//   $.ajax({
+//       type  : 'POST',
+//       data  : { "username" : $("#current_player_username").text() },
+//       url   : $("#end_game_form").data('url')
+//   });
+// };
 
-// Ajax-form for going back to start game -view
+// New game
 $(document).ready(function() {
   $('#new_game_button').on('click', function() {
     $.ajax({
         type  : 'POST',
-        url   : $("#new_game_form").data('url')
+        url   : "new_game"
     });
   });
 });

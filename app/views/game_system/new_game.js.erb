@@ -6,6 +6,8 @@ $(".start_game").css("display", "block");
 $("#username").val("");
 $("#username").focus();
 
+$("#winning_lines").attr("class", "info_buttons collapse");
+
 var table = document.getElementById("high_scores_table");
 
 for (var i = 0, row; row = table.rows[i]; i++) {

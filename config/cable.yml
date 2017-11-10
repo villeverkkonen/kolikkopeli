@@ -6,5 +6,5 @@ test:
 
 production:
   adapter: redis
-  url: redis://localhost:6379/1
+  url: https://www.kolikkopeli.herokuapp.com/
   channel_prefix: kolikkopeli_production

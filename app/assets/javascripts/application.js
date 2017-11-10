@@ -15,5 +15,4 @@
 //= require jquery_ujs
 //= require bootstrap-sprockets
 //= require turbolinks
-//= require game_system.js
 //= require_tree .

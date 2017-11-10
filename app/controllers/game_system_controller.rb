@@ -181,7 +181,7 @@ class GameSystemController < ApplicationController
 
   def start_game
     @user = User.find_or_create_by(username: params[:username])
-    @game_money = 20
+    @game_money = 25
     @current_bet = 1
 
     @user.game_money = @game_money
@@ -284,6 +284,23 @@ class GameSystemController < ApplicationController
       format.js
     end
   end
+
+  # def send_message
+  #   @message = params[:message]
+  #   if @message.length > 0 && @message.length <= 140
+  #     @chat = Chat.new
+  #     @chat.message = @message
+  #     @chat.save
+  #   end
+
+  #   if Chat.count > 5
+  #     Chat.all.order("created_at ASC").first.destroy
+  #   end
+
+  #   respond_to do |format|
+  #     format.js
+  #   end
+  # end
 
   private
     def set_slots

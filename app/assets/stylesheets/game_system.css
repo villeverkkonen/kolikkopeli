@@ -110,3 +110,13 @@ table#high_scores_table {
 #C9 {
 	color: #ef9b3b;
 }
+
+.chat_message_time {
+	font-size: 12px;
+	color: #DCDCDC;
+}
+
+.chat_message_content {
+	font-size: 14px;
+	color: black;
+}

@@ -68,7 +68,7 @@
 					</tr>
 				</thead>
 				<tbody id="high_score_table_body">
-					<% @all_high_scores.order("game_score DESC").limit(5).each do |high_score| %>
+					<% @all_high_scores.order("game_score ASC").limit(5).each do |high_score| %>
 						<tr>
 							<td><%= high_score.username %></td>
 							<td><%= high_score.game_score.to_s %></td>

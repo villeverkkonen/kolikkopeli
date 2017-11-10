@@ -36,21 +36,22 @@ $(document).ready(function() {
   });
 });
 
-// // Ajax-form for ending game
-// function end_game() {
-//   $.ajax({
-//       type  : 'POST',
-//       data  : { "username" : $("#current_player_username").text() },
-//       url   : $("#end_game_form").data('url')
-//   });
-// };
-
 // New game
 $(document).ready(function() {
   $('#new_game_button').on('click', function() {
     $.ajax({
         type  : 'POST',
         url   : "new_game"
+    });
+  });
+});
+
+$(document).ready(function() {
+  $('#chat_button').on('click', function() {
+    $.ajax({
+        type  : 'POST',
+        data  : { "message" : $("#message_field").val() },
+        url   : "send_message"
     });
   });
 });

@@ -11,5 +11,8 @@ Rails.application.routes.draw do
   post 'bet_lower' => 'game_system#bet_lower'
   post 'bet_higher' => 'game_system#bet_higher'
 
-  # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  resources :messages, only: [:index]
+
+  mount ActionCable.server => '/cable'
+
 end

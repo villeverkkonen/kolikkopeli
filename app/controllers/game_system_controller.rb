@@ -293,10 +293,10 @@ class GameSystemController < ApplicationController
     end
 
     def set_winning_prices
-      @AAA = 2
-      @BBB = 4
-      @CCC = 6
-      @ABC = 3
+      @AAA = 3
+      @BBB = 6
+      @CCC = 9
+      @ABC = 4
       @A9 = 20
       @B9 = 40
       @C9 = 60

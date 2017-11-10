@@ -64,14 +64,14 @@ class GameSystemController < ApplicationController
     @jackpot = false
 
     if (upper_slots[0] == "A" || upper_slots[0] == "#") &&
-       (upper_slots[1] == "A" || upper_slots[0] == "#") &&
-       (upper_slots[2] == "A" || upper_slots[0] == "#") &&
+       (upper_slots[1] == "A" || upper_slots[1] == "#") &&
+       (upper_slots[2] == "A" || upper_slots[2] == "#") &&
        (middle_slots[0] == "A" || middle_slots[0] == "#") &&
-       (middle_slots[1] == "A" || middle_slots[0] == "#") &&
-       (middle_slots[2] == "A" || middle_slots[0] == "#") &&
+       (middle_slots[1] == "A" || middle_slots[1] == "#") &&
+       (middle_slots[2] == "A" || middle_slots[2] == "#") &&
        (bottom_slots[0] == "A" || bottom_slots[0] == "#") &&
-       (bottom_slots[1] == "A" || bottom_slots[0] == "#") &&
-       (bottom_slots[2] == "A" || bottom_slots[0] == "#")
+       (bottom_slots[1] == "A" || bottom_slots[1] == "#") &&
+       (bottom_slots[2] == "A" || bottom_slots[2] == "#")
 
       add_price_to_game_money(@A9)
       new_jackpot(@A9, "9 x A")

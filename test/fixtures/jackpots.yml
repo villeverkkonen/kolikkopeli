@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  winning_line: MyString
+  bet: 1
+  winning_price: 1
+
+two:
+  winning_line: MyString
+  bet: 1
+  winning_price: 1

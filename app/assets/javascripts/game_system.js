@@ -53,6 +53,7 @@ $(document).ready(function() {
   $('#refresh_chat_button').on('click', function() {
     $.ajax({
         type  : 'POST',
+        data  : { "username" : $("#current_player_username").text() },
         url   : "refresh_chat"
     });
   });

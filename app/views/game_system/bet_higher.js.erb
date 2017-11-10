@@ -32,4 +32,17 @@
 			"<td>" + "<%= high_score.game_score.to_s %>" + "</td>" +
 			"</tr>");
 	<% end %>
+
+	// Refresh Jackpot list
+	$("#jackpots_table_body").empty();
+	<% Jackpot.order("created_at ASC").each do |jackpot| %>
+		$("#jackpots_table_body").append(
+			"<tr>" +
+				"<td><%= jackpot.username %></td>" +
+				"<td><%= jackpot.winning_line %></td>" +
+				"<td><%= jackpot.bet.to_s %></td>" +
+				"<td><%= jackpot.winning_price.to_s %></td>" +
+			"</tr>"
+			);
+	<% end %>
 <% end %>

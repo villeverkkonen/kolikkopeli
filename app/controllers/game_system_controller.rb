@@ -74,8 +74,10 @@ class GameSystemController < ApplicationController
        (bottom_slots[2] == "A" || bottom_slots[0] == "#")
 
       add_price_to_game_money(@A9)
+      new_jackpot(@A9, "9 x A")
       @jackpot = true
       @jackpot_A9 = true
+
 
     elsif (upper_slots[0] == "B" || upper_slots[0] == "#") &&
           (upper_slots[1] == "B" || upper_slots[1] == "#") &&
@@ -88,6 +90,7 @@ class GameSystemController < ApplicationController
           (bottom_slots[2] == "B" || bottom_slots[2] == "#")
 
       add_price_to_game_money(@B9)
+      new_jackpot(@B9, "9 x B")
       @jackpot = true
       @jackpot_B9 = true
 
@@ -102,6 +105,7 @@ class GameSystemController < ApplicationController
           (bottom_slots[2] == "C" || bottom_slots[2] == "#")
 
       add_price_to_game_money(@C9)
+      new_jackpot(@C9, "9 x C")
       @jackpot = true
       @jackpot_C9 = true
 
@@ -132,6 +136,16 @@ class GameSystemController < ApplicationController
     else
      @winning_text = nil
     end
+  end
+
+  def new_jackpot(winning_line, winning_line_string)
+    user = User.find_by(username: params[:username])
+    jackpot = Jackpot.new
+    jackpot.winning_line = winning_line_string
+    jackpot.bet = user.current_bet
+    jackpot.winning_price = winning_line * @bet
+    jackpot.username = user.username
+    jackpot.save
   end
 
   def add_price_to_game_money(amount)

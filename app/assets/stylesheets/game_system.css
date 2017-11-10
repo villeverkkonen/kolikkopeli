@@ -25,6 +25,18 @@ table#high_scores_table {
 	width: auto;
 }
 
+table#jackpots_table th {
+	padding: 5px;
+}
+
+table#jackpots_table td {
+	text-align: center;
+}
+
+#jackpots_element {
+	display: none;
+}
+
 .chat {
 	display: none;
 }

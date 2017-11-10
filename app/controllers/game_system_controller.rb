@@ -56,9 +56,6 @@ class GameSystemController < ApplicationController
       @user_not_found = true
     end
 
-    p "Current bet: " + @bet.to_s
-    p "Current money: " + @game_money_amount.to_s
-
     respond_to do |format|
       format.js
     end
@@ -67,66 +64,66 @@ class GameSystemController < ApplicationController
   def check_winning_price(upper_slots, middle_slots, bottom_slots)
     @jackpot = false
 
-    if upper_slots[0] == "A" &&
-       upper_slots[1] == "A" &&
-       upper_slots[2] == "A" &&
-       middle_slots[0] == "A" &&
-       middle_slots[1] == "A" &&
-       middle_slots[2] == "A" &&
-       bottom_slots[0] == "A" &&
-       bottom_slots[1] == "A" &&
-       bottom_slots[2] == "A"
+    if (upper_slots[0] == "A" || upper_slots[0] == "#") &&
+       (upper_slots[1] == "A" || upper_slots[0] == "#") &&
+       (upper_slots[2] == "A" || upper_slots[0] == "#") &&
+       (middle_slots[0] == "A" || middle_slots[0] == "#") &&
+       (middle_slots[1] == "A" || middle_slots[0] == "#") &&
+       (middle_slots[2] == "A" || middle_slots[0] == "#") &&
+       (bottom_slots[0] == "A" || bottom_slots[0] == "#") &&
+       (bottom_slots[1] == "A" || bottom_slots[0] == "#") &&
+       (bottom_slots[2] == "A" || bottom_slots[0] == "#")
 
       add_price_to_game_money(@A9)
       @jackpot = true
 
-    elsif upper_slots[0] == "B" &&
-          upper_slots[1] == "B" &&
-          upper_slots[2] == "B" &&
-          middle_slots[0] == "B" &&
-          middle_slots[1] == "B" &&
-          middle_slots[2] == "B" &&
-          bottom_slots[0] == "B" &&
-          bottom_slots[1] == "B" &&
-          bottom_slots[2] == "B"
+    elsif (upper_slots[0] == "B" || upper_slots[0] == "#") &&
+          (upper_slots[1] == "B" || upper_slots[1] == "#") &&
+          (upper_slots[2] == "B" || upper_slots[2] == "#") &&
+          (middle_slots[0] == "B" || middle_slots[0] == "#") &&
+          (middle_slots[1] == "B" || middle_slots[1] == "#") &&
+          (middle_slots[2] == "B" || middle_slots[2] == "#") &&
+          (bottom_slots[0] == "B" || bottom_slots[0] == "#") &&
+          (bottom_slots[1] == "B" || bottom_slots[1] == "#") &&
+          (bottom_slots[2] == "B" || bottom_slots[2] == "#")
 
       add_price_to_game_money(@B9)
       @jackpot = true
 
-    elsif upper_slots[0] == "C" &&
-          upper_slots[1] == "C" &&
-          upper_slots[2] == "C" &&
-          middle_slots[0] == "C" &&
-          middle_slots[1] == "C" &&
-          middle_slots[2] == "C" &&
-          bottom_slots[0] == "C" &&
-          bottom_slots[1] == "C" &&
-          bottom_slots[2] == "C"
+    elsif (upper_slots[0] == "C" || upper_slots[0] == "#") &&
+          (upper_slots[1] == "C" || upper_slots[1] == "#") &&
+          (upper_slots[2] == "C" || upper_slots[2] == "#") &&
+          (middle_slots[0] == "C" || middle_slots[0] == "#") &&
+          (middle_slots[1] == "C" || middle_slots[1] == "#") &&
+          (middle_slots[2] == "C" || middle_slots[2] == "#") &&
+          (bottom_slots[0] == "C" || bottom_slots[0] == "#") &&
+          (bottom_slots[1] == "C" || bottom_slots[1] == "#") &&
+          (bottom_slots[2] == "C" || bottom_slots[2] == "#")
 
       add_price_to_game_money(@C9)
       @jackpot = true
 
-    elsif middle_slots[0] == "A" &&
-          middle_slots[1] == "A" &&
-          middle_slots[2] == "A"
+    elsif (middle_slots[0] == "A" || middle_slots[0] == "#") &&
+          (middle_slots[1] == "A" || middle_slots[1] == "#") &&
+          (middle_slots[2] == "A" || middle_slots[2] == "#")
 
       add_price_to_game_money(@AAA)
 
-    elsif middle_slots[0] == "B" &&
-          middle_slots[1] == "B" &&
-          middle_slots[2] == "B"
+    elsif (middle_slots[0] == "B" || middle_slots[0] == "#") &&
+          (middle_slots[1] == "B" || middle_slots[1] == "#") &&
+          (middle_slots[2] == "B" || middle_slots[2] == "#")
 
       add_price_to_game_money(@BBB)
 
-    elsif middle_slots[0] == "C" &&
-          middle_slots[1] == "C" &&
-          middle_slots[2] == "C"
+    elsif (middle_slots[0] == "C" || middle_slots[0] == "#") &&
+          (middle_slots[1] == "C" || middle_slots[1] == "#") &&
+          (middle_slots[2] == "C" || middle_slots[2] == "#")
 
       add_price_to_game_money(@CCC)
 
-    elsif middle_slots[0] == "A" &&
-          middle_slots[1] == "B" &&
-          middle_slots[2] == "C"
+    elsif (middle_slots[0] == "A" || middle_slots[0] == "#") &&
+          (middle_slots[1] == "B" || middle_slots[1] == "#") &&
+          (middle_slots[2] == "C" || middle_slots[2] == "#")
 
       add_price_to_game_money(@ABC)
 
@@ -248,7 +245,7 @@ class GameSystemController < ApplicationController
 
       @current_bet = @user.current_bet
 
-      if @current_bet > 1
+      if @current_bet > 1 && @current_bet <= 5
         @current_bet -= 1
         @user.current_bet = @current_bet
         @user.save
@@ -257,8 +254,6 @@ class GameSystemController < ApplicationController
     else
       @user_not_found = true
     end
-
-    p "Alempi panos: " + @current_bet.to_s
 
     respond_to do |format|
         format.js
@@ -272,7 +267,8 @@ class GameSystemController < ApplicationController
     if !@user.nil?
       @current_bet = @user.current_bet
 
-      if @current_bet < 5
+      if @current_bet < 5 && @current_bet >= 1 &&
+        @current_bet + 1 <= @user.game_money
         @current_bet += 1
         @user.current_bet = @current_bet
         @user.save
@@ -280,8 +276,6 @@ class GameSystemController < ApplicationController
     else
       @user_not_found = true
     end
-
-    p "Ylempi panos: " + @current_bet.to_s
 
     respond_to do |format|
       format.js
@@ -291,19 +285,20 @@ class GameSystemController < ApplicationController
   private
     def set_slots
       @slots = [
-      "A", "A", "A", "A",
-      "B", "B", "B",
-      "C", "C"
+      "A", "A", "A", "A", "A", "A", "A",
+      "B", "B", "B", "B", "B", "B",
+      "C", "C", "C", "C", "C",
+      "#"
     ]
     end
 
     def set_winning_prices
-      @AAA = 4
-      @BBB = 8
-      @CCC = 12
-      @ABC = 6
-      @A9 = 50
-      @B9 = 100
-      @C9 = 150
+      @AAA = 2
+      @BBB = 4
+      @CCC = 6
+      @ABC = 3
+      @A9 = 20
+      @B9 = 40
+      @C9 = 60
     end
 end

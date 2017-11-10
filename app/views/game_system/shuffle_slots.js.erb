@@ -11,7 +11,7 @@
 		// Refresh newest high scores
 		$("#high_score_table_body").empty();
 
-		<% @all_high_scores.order("game_score DESC").limit(5).each do |high_score| %>
+		<% HighScore.order("game_score DESC").limit(5).each do |high_score| %>
 
 			// Highlight the last rounds score if it got into HighScore
 			// If current rounds username and score is found in HighScore, presume it's the right one

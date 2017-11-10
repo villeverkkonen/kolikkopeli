@@ -291,9 +291,9 @@ class GameSystemController < ApplicationController
     end
 
     # Save only 5 newest messages
-    # if Chat.count > 5
-    #   Chat.all.order("created_at ASC").first.destroy
-    # end
+    if Chat.count > 5
+      Chat.all.order("created_at ASC").first.destroy
+    end
 
     respond_to do |format|
       format.js

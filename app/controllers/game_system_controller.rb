@@ -5,7 +5,6 @@ class GameSystemController < ApplicationController
   respond_to :html, :json, :js
 
   def index
-    @all_high_scores = HighScore.all
   end
 
   # This happens every spin
@@ -222,9 +221,6 @@ class GameSystemController < ApplicationController
         HighScore.all.order("game_score DESC").last.destroy
       end
 
-      # all_high_scores for end_game.js.erb to update high score table
-      @all_high_scores = HighScore.all
-
       # Destroy user, not needed anymore
       @user.destroy
     else
@@ -285,22 +281,23 @@ class GameSystemController < ApplicationController
     end
   end
 
-  # def send_message
-  #   @message = params[:message]
-  #   if @message.length > 0 && @message.length <= 140
-  #     @chat = Chat.new
-  #     @chat.message = @message
-  #     @chat.save
-  #   end
+  def chat
+    @message = params[:message]
+    if @message.length > 0 && @message.length <= 140
+      @chat = Chat.new
+      @chat.message = @message
+      @chat.username = params[:username]
+      @chat.save
+    end
 
-  #   if Chat.count > 5
-  #     Chat.all.order("created_at ASC").first.destroy
-  #   end
+    if Chat.count > 5
+      Chat.all.order("created_at ASC").first.destroy
+    end
 
-  #   respond_to do |format|
-  #     format.js
-  #   end
-  # end
+    respond_to do |format|
+      format.js
+    end
+  end
 
   private
     def set_slots

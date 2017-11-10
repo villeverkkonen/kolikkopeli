@@ -10,9 +10,6 @@ Rails.application.routes.draw do
   post 'shuffle_slots' => 'game_system#shuffle_slots'
   post 'bet_lower' => 'game_system#bet_lower'
   post 'bet_higher' => 'game_system#bet_higher'
-
-  resources :messages, only: [:index]
-
-  mount ActionCable.server => '/cable'
+  post 'chat' => 'game_system#chat'
 
 end

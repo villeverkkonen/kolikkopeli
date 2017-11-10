@@ -57,26 +57,43 @@
 				<button class="btn btn-primary" id="end_game_button">Lopeta peli</button>
 			</div>
 		</div>
+	</div>
 
-		<div class="high_scores">
-			<h3>High Scores</h3>
-			<table class="table table-bordered" id="high_scores_table">
-				<thead>
-					<tr>
-						<th>Pelaaja</th>
-						<th>Pisteet</th>
-					</tr>
-				</thead>
-				<tbody id="high_score_table_body">
-					<% @all_high_scores.order("game_score ASC").limit(5).each do |high_score| %>
-						<tr>
-							<td><%= high_score.username %></td>
-							<td><%= high_score.game_score.to_s %></td>
-						</tr>
-					<% end %>
-				</tbody>
-			</table>
+	<div class="chat">
+		<p>Vieraskirja-chat</p>
+		<div id="chat_messages">
+			<% Chat.all.order("created_at ASC").each do |chat| %>
+				<p class="chat_message">
+					<span class="chat_message_time"><%= chat.created_at.strftime("%H" + ":" + "%M" + ":" + "%S") %> - </span>
+					<span class="chat_message_username"><%= chat.username %> </span>
+					<span class="chat_message_content"> <%= chat.message %></span>
+				</p>
+			<% end %>
 		</div>
+
+		<label for="message_field">Kirjoita viesti</label>
+		<input type="text" name="message" id="message_field" maxlength="140">
+		<button class="btn btn-danger" id="chat_button">Chat!</button>
+	</div>
+
+	<div class="high_scores">
+		<h3>High Scores</h3>
+		<table class="table table-bordered" id="high_scores_table">
+			<thead>
+				<tr>
+					<th>Pelaaja</th>
+					<th>Pisteet</th>
+				</tr>
+			</thead>
+			<tbody id="high_score_table_body">
+				<% HighScore.order("game_score ASC").limit(5).each do |high_score| %>
+					<tr>
+						<td><%= high_score.username %></td>
+						<td><%= high_score.game_score.to_s %></td>
+					</tr>
+				<% end %>
+			</tbody>
+		</table>
 	</div>
 
 	<div class="start_game" id="start_game_form">

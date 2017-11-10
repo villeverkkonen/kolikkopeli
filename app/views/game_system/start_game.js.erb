@@ -1,13 +1,38 @@
+// Hide/Show elements that are and are not needed
 $(".start_game").css("display", "none");
+$(".chat").css("display", "block");
 $(".game_on").css("display", "block");
-$(".game_options").css("display", "block");
 $(".end_game").css("display", "block");
+$(".high_scores").css("display", "block");
+$(".game_options").css("display", "block");
 
+// Override last rounds slots with dollars
 $("#upper_slots_row").text("$ $ $");
 $("#middle_slots_row").text("$ $ $");
 $("#bottom_slots_row").text("$ $ $");
 
+// Set all the info
 $("#current_player_username").text("<%= @user.username %>");
 $("#game_money_amount").text("<%= @user.game_money %>");
 $("#game_bet_amount").text("<%= @current_bet %>");
 $("#winner").text("Onnea peliin!");
+
+// Refresh chat messages
+$("#chat_messages").empty();
+$("#message_field").val("");
+<% Chat.all.order("created_at ASC").limit(5).each do |chat| %>
+	$("#chat_messages").append("<p class='chat_message'>" +
+	"<span class='chat_message_time'><%= chat.created_at.strftime('%H' + ':' + '%M' + ':' + '%S') %> - </span>" +
+	"<span class='chat_message_username'><%= chat.username %></span> " +
+	"<span class='chat_message_content'><%= chat.message %></span></p>");
+<% end %>
+
+// Refresh high scores
+$("#high_score_table_body").empty();
+<% HighScore.order("game_score DESC").limit(5).each do |high_score| %>
+
+	$("#high_score_table_body").append("<tr>" +
+		"<td>" + "<%= high_score.username %>" + "</td>" +
+		"<td>" + "<%= high_score.game_score.to_s %>" + "</td>" +
+		"</tr>");
+<% end %>

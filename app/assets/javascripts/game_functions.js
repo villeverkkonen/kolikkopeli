@@ -1,8 +1,3 @@
-// Wishing luck just for fun
-$(document).ready(function() {
-  console.log("Onnea peliin!");
-});
-
 // Start game
 $(document).ready(function() {
   $('#start_game_button').on('click', function() {
@@ -42,16 +37,6 @@ $(document).ready(function() {
     $.ajax({
         type  : 'POST',
         url   : "new_game"
-    });
-  });
-});
-
-$(document).ready(function() {
-  $('#chat_button').on('click', function() {
-    $.ajax({
-        type  : 'POST',
-        data  : { "message" : $("#message_field").val() },
-        url   : "send_message"
     });
   });
 });

@@ -2,15 +2,19 @@
 	alert("Käyttäjää ei löydy!");
 <% else %>
 	<% if @game_over %>
+		// Hide/Show elements that are and are not needed
 		$(".game_options").css("display", "none");
 		$(".end_game").css("display", "none");
 		$(".game_over").css("display", "block");
 		$("#end_game_score").text("<%= @game_money %>");
 
+		// Refresh newest high scores
 		$("#high_score_table_body").empty();
 
 		<% @all_high_scores.order("game_score DESC").limit(5).each do |high_score| %>
 
+			// Highlight the last rounds score if it got into HighScore
+			// If current rounds username and score is found in HighScore, presume it's the right one
 			if ("<%= @username %>".valueOf() == "<%= high_score.username %>".valueOf() &&
 				"<%= @game_money %>".valueOf() == "<%= high_score.game_score %>".valueOf()) {
 				$("#high_score_table_body").append("<tr style='background-color: #ffcc66;'>" +
@@ -18,6 +22,7 @@
 					"<td>" + "<%= high_score.game_score.to_s %>" + "</td>" +
 					"</tr>");
 			} else {
+				// If player did not get it to the HighScore, don't highlight anything
 				$("#high_score_table_body").append("<tr>" +
 					"<td>" + "<%= high_score.username %>" + "</td>" +
 					"<td>" + "<%= high_score.game_score.to_s %>" + "</td>" +
@@ -26,6 +31,26 @@
 		<% end %>
 
 	<% else %>
+
+		// Refresh high scores
+		$("#high_score_table_body").empty();
+		<% HighScore.order("game_score DESC").limit(5).each do |high_score| %>
+
+			$("#high_score_table_body").append("<tr>" +
+				"<td>" + "<%= high_score.username %>" + "</td>" +
+				"<td>" + "<%= high_score.game_score.to_s %>" + "</td>" +
+				"</tr>");
+		<% end %>
+
+		// Refresh chat messages
+		$("#chat_messages").empty();
+		$("#message_field").val("");
+		<% Chat.all.order("created_at ASC").limit(5).each do |chat| %>
+			$("#chat_messages").append("<p class='chat_message'>" +
+				"<span class='chat_message_time'><%= chat.created_at.strftime('%H' + ':' + '%M' + ':' + '%S') %> - </span>" +
+				"<span class='chat_message_username'><%= chat.username %></span> " +
+				"<span class='chat_message_content'><%= chat.message %></span></p>");
+		<% end %>
 
 		// If user won something, add right text, else just a line break
 		<% if @winning_text %>
@@ -57,7 +82,6 @@
 		$("#upper_slots_row").text("<%= @upper_slots %>");
 		$("#middle_slots_row").text("<%= @middle_slots %>");
 		$("#bottom_slots_row").text("<%= @bottom_slots %>");
-
 		$("#game_bet_amount").text("<%= @bet %>");
 	<% end %>
 <% end %>

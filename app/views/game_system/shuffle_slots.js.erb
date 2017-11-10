@@ -37,7 +37,15 @@
 
 		// If jackpot was won, append jackpot-colors, else return normal color
 		<% if @jackpot %>
-			$(".slots").css("background-color", "#FF00FF");
+			<% if @jackpot_A9 %>
+				$(".slots").css("background-color", "#FF00FF");
+			<% elsif @jackpot_B9 %>
+				$(".slots").css("background-color", "#428cf4");
+			<% elsif @jackpot_C9 %>
+				$(".slots").css("background-color", "#ef9b3b");
+			<% end %>
+			$("#winner").prepend("JACKPOT ");
+			$("#winner").append(" JACKPOT");
 		<% else %>
 			$(".slots").css("background-color", "#DCDCDC");
 		<% end %>

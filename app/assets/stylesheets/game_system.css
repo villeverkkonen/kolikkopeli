@@ -93,4 +93,20 @@ table#high_scores_table {
 
 #winning_lines {
 	font-size: 16px;
+	background-color: #dce8f2;
+	width: 89.825px;
+	padding: 3px;
+	text-align: center;
+}
+
+#A9 {
+	color: #FF00FF;
+}
+
+#B9 {
+	color: #428cf4;
+}
+
+#C9 {
+	color: #ef9b3b;
 }

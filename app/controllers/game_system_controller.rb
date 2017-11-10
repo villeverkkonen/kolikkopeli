@@ -76,6 +76,7 @@ class GameSystemController < ApplicationController
 
       add_price_to_game_money(@A9)
       @jackpot = true
+      @jackpot_A9 = true
 
     elsif (upper_slots[0] == "B" || upper_slots[0] == "#") &&
           (upper_slots[1] == "B" || upper_slots[1] == "#") &&
@@ -89,6 +90,7 @@ class GameSystemController < ApplicationController
 
       add_price_to_game_money(@B9)
       @jackpot = true
+      @jackpot_B9 = true
 
     elsif (upper_slots[0] == "C" || upper_slots[0] == "#") &&
           (upper_slots[1] == "C" || upper_slots[1] == "#") &&
@@ -102,6 +104,7 @@ class GameSystemController < ApplicationController
 
       add_price_to_game_money(@C9)
       @jackpot = true
+      @jackpot_C9 = true
 
     elsif (middle_slots[0] == "A" || middle_slots[0] == "#") &&
           (middle_slots[1] == "A" || middle_slots[1] == "#") &&
@@ -134,7 +137,7 @@ class GameSystemController < ApplicationController
 
   def add_price_to_game_money(amount)
     winning_amount = amount * @bet
-    @winning_text = "Voitit " + winning_amount.to_s
+    @winning_text = "VOITIT " + winning_amount.to_s
     @user.game_money += winning_amount
     @user.save
   end
@@ -296,7 +299,7 @@ class GameSystemController < ApplicationController
       @AAA = 3
       @BBB = 4
       @CCC = 5
-      @ABC = 2
+      @ABC = 3
       @A9 = 20
       @B9 = 40
       @C9 = 60

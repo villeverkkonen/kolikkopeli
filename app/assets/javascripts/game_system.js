@@ -48,6 +48,16 @@ $(document).ready(function() {
   });
 });
 
+// Refresh chat messages
+$(document).ready(function() {
+  $('#refresh_chat_button').on('click', function() {
+    $.ajax({
+        type  : 'POST',
+        url   : "refresh_chat"
+    });
+  });
+});
+
 // Wishing luck just for fun
 $(document).ready(function() {
   console.log("Onnea peliin!");

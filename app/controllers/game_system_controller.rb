@@ -300,6 +300,12 @@ class GameSystemController < ApplicationController
     end
   end
 
+  def refresh_chat
+    respond_to do |format|
+      format.js
+    end
+  end
+
   private
     def set_slots
       @slots = [

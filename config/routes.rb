@@ -11,5 +11,6 @@ Rails.application.routes.draw do
   post 'bet_lower' => 'game_system#bet_lower'
   post 'bet_higher' => 'game_system#bet_higher'
   post 'chat' => 'game_system#chat'
+  post 'refresh_chat' => 'game_system#refresh_chat'
 
 end

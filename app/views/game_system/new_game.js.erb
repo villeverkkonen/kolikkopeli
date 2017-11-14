@@ -1,24 +1,16 @@
 // Hide/Show elements that are and are not needed
-$(".chat").css("display", "none");
-$(".game_on").css("display", "none");
-$(".end_game").css("display", "none");
-$(".game_over").css("display", "none");
-$(".high_scores").css("display", "none");
-$(".start_game").css("display", "block");
 
-// Empty old username from the field and autofocus
-$("#username").val("");
-$("#username").focus();
+$(".high_scores").detach();
+$(".game_over").detach();
+$(".chat").detach();
+$(".jackpots_element").detach();
 
-// Hide drop down list of winning lines if were collapsed last round
-$("#winning_lines").attr("class", "info_buttons collapse");
-$("#jackpots").attr("class", "collapse");
-
-// Remove colors from table which might have been used in end_game screen
-var table = document.getElementById("high_scores_table");
-
-for (var i = 0, row; row = table.rows[i]; i++) {
-   row.removeAttribute("style");
-}
-
-$("#jackpots_element").css("display", "none");
+$(".content").append(
+	"<div class='start_game' id='start_game_form'>" +
+		"<label for='username'>Nimimerkki</label>" +
+		"<br>" +
+		"<input type='text' name='username' id='username' autofocus='true'>" +
+		"<br><br>" +
+		"<button class='btn btn-primary' id='start_game_button' onclick='start_game()'>Aloita peli</button>" +
+	"</div>"
+	);

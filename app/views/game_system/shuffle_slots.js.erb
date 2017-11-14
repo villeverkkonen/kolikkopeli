@@ -2,33 +2,125 @@
 	alert("Käyttäjää ei löydy!");
 <% else %>
 	<% if @game_over %>
-		// Hide/Show elements that are and are not needed
-		$(".game_options").css("display", "none");
-		$(".end_game").css("display", "none");
-		$(".game_over").css("display", "block");
-		$("#end_game_score").text("<%= @game_money %>");
+		$(".chat").detach();
+		$(".game_on").detach();
+		$(".end_game").detach();
+		$(".high_scores").detach();
+		$(".game_options").detach();
+		$(".jackpots_element").detach();
 
-		// Refresh newest high scores
-		$("#high_score_table_body").empty();
+		// Refresh high scores
+		$(".content").append(
+			"<div class='high_scores'>" +
+				"<h3>High Scores</h3>" +
+				"<table class='table table-bordered' id='high_scores_table'>" +
+					"<thead>" +
+						"<tr>" +
+							"<th>Pelaaja</th>" +
+							"<th>Pisteet</th>" +
+						"</tr>" +
+					"</thead>" +
+					"<tbody id='high_score_table_body'>" +
+					"</tbody>" +
+				"</table>" +
+			"</div>"
+			);
 
 		<% HighScore.order("game_score DESC").limit(5).each do |high_score| %>
 
 			// Highlight the last rounds score if it got into HighScore
 			// If current rounds username and score is found in HighScore, presume it's the right one
 			if ("<%= @username %>".valueOf() == "<%= high_score.username %>".valueOf() &&
-				"<%= @game_money %>".valueOf() == "<%= high_score.game_score %>".valueOf()) {
-				$("#high_score_table_body").append("<tr style='background-color: #ffcc66;'>" +
+				"<%= @game_money_amount %>".valueOf() == "<%= high_score.game_score %>".valueOf()) {
+				$("#high_score_table_body").append(
+					"<tr style='background-color: #ffcc66;'>" +
 					"<td>" + "<%= high_score.username %>" + "</td>" +
 					"<td>" + "<%= high_score.game_score.to_s %>" + "</td>" +
-					"</tr>");
+					"</tr>"
+					);
 			} else {
 				// If player did not get it to the HighScore, don't highlight anything
-				$("#high_score_table_body").append("<tr>" +
+				$("#high_score_table_body").append(
+					"<tr>" +
 					"<td>" + "<%= high_score.username %>" + "</td>" +
 					"<td>" + "<%= high_score.game_score.to_s %>" + "</td>" +
-					"</tr>");
+					"</tr>"
+					);
 			}
 		<% end %>
+
+		// Append Game Over -texts and button for new game
+		$(".content").append(
+		 	"<div class='game_over'>" +
+				"<span>Peli loppui.</span>" +
+				"<br>" +
+				"<span class='eng_game_text'>Pisteesi: </span>" +
+				"<span class='eng_game_text' id='end_game_score'><%= @game_money_amount %></span>" +
+				"" +
+				"<br><br>" +
+				"" +
+				"<div class='new_game' id='new_game_form'>" +
+					"<button class='btn btn-primary' id='new_game_button' onclick='new_game()'>Uusi peli</button>" +
+				"</div>" +
+				"<br>" +
+			"</div>"
+		 	);
+
+		// Refresh chat messages
+
+		$(".content").append(
+			"<div class='chat'>" +
+				"<p>Vieraskirja-chat</p>" +
+				"<div id='chat_messages'>" +
+					"<% Chat.order('created_at DESC').limit(5).reverse.each do |chat| %>" +
+						"<p class='chat_message'>" +
+							"<span class='chat_message_time'><%= chat.created_at.strftime('%H' + ':' + '%M' + ':' + '%S') %> - </span>" +
+							"<span class='chat_message_username'><%= chat.username %> </span>" +
+							"<span class='chat_message_content'> <%= chat.message %></span>" +
+						"</p>" +
+					"<% end %>" +
+				"</div>" +
+				"" +
+				"<label for='message_field'>Kirjoita viesti</label>" +
+				"<br>" +
+				"<input type='text' name='message' id='message_field' maxlength='140'> " +
+				"<button class='btn btn-danger' id='chat_button' onclick='send_chat()'>Chat!</button>" +
+				"<br>" +
+				"<button class='btn' id='refresh_chat_button' onclick='refresh_chat()'>Päivitä Chat</button>" +
+				"<br><br>" +
+			"</div>"
+		);
+
+		// Refresh Jackpot list
+		$(".content").append(
+			"<div class='jackpots_element'>" +
+				"<button class='btn btn-default jackpots_button' data-toggle='collapse' data-target='#jackpots'>Voitetut Jackpotit</button>" +
+				"<div id='jackpots' class='collapse'>" +
+					"<table id='jackpots_table'>" +
+						"<thead>" +
+							"<tr>" +
+								"<th>Aika</th>" +
+								"<th>Pelaaja</th>" +
+								"<th>Linja</th>" +
+								"<th>Panos</th>" +
+								"<th>Voitto</th>" +
+							"</tr>" +
+						"</thead>" +
+						"<tbody id='jackpots_table_body'>" +
+							"<% Jackpot.order('created_at ASC').each do |jackpot| %>" +
+								"<tr class='jackpot_win'>" +
+									"<td><%= jackpot.created_at.strftime('%e' + '.' + '%-m' + '.' + '%Y') %></td>" +
+									"<td><%= jackpot.username %></td>" +
+									"<td><%= jackpot.winning_line %></td>" +
+									"<td><%= jackpot.bet.to_s %></td>" +
+									"<td><%= jackpot.winning_price.to_s %></td>" +
+								"</tr>" +
+							"<% end %>" +
+						"</tbody>" +
+					"</table>" +
+				"</div>" +
+			"</div>"
+		);
 
 	<% else %>
 
@@ -36,20 +128,25 @@
 		$("#high_score_table_body").empty();
 		<% HighScore.order("game_score DESC").limit(5).each do |high_score| %>
 
-			$("#high_score_table_body").append("<tr>" +
-				"<td>" + "<%= high_score.username %>" + "</td>" +
-				"<td>" + "<%= high_score.game_score.to_s %>" + "</td>" +
-				"</tr>");
+			$("#high_score_table_body").append(
+				"<tr>" +
+					"<td>" + "<%= high_score.username %>" + "</td>" +
+					"<td>" + "<%= high_score.game_score.to_s %>" + "</td>" +
+				"</tr>"
+				);
 		<% end %>
 
 		// Refresh chat messages
 		$("#chat_messages").empty();
 		$("#message_field").val("");
 		<% Chat.all.order("created_at DESC").limit(5).reverse.each do |chat| %>
-			$("#chat_messages").append("<p class='chat_message'>" +
-				"<span class='chat_message_time'><%= chat.created_at.strftime('%H' + ':' + '%M' + ':' + '%S') %> - </span>" +
-				"<span class='chat_message_username'><%= chat.username %></span> " +
-				"<span class='chat_message_content'><%= chat.message %></span></p>");
+			$("#chat_messages").append(
+				"<p class='chat_message'>" +
+					"<span class='chat_message_time'><%= chat.created_at.strftime('%H' + ':' + '%M' + ':' + '%S') %> - </span>" +
+					"<span class='chat_message_username'><%= chat.username %></span> " +
+					"<span class='chat_message_content'><%= chat.message %></span>" +
+				"</p>"
+				);
 		<% end %>
 
 		// If user won something, add right text, else just a line break

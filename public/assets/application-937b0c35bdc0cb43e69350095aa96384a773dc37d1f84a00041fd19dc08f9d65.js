@@ -15241,88 +15241,72 @@ return t.dispatch("turbolinks:before-render",{data:{newBody:e}})},r.prototype.no
 // App.cable = ActionCable.createConsumer();
 
 // }).call(this);
-// Start game
-$(document).ready(function() {
-  $('#start_game_button').on('click', function() {
-    
-    // Username can't contain special characters nor be null
-    if (/^[a-zA-Z0-9]+(?:[\w -]*[a-zA-Z0-9]+)*$/.test($("#username").val()) &&
-      $("#username").val() != "" &&
-      $("#username").val() != null) {
-
-      $.ajax({
-        type  : 'POST',
-        data: { "username" : $("#username").val() },
-        url   : "start_game"
-      });
-
-  	} else {
-        alert("Keksi erikoismerkitön nimimerkki!");
-        $("#username").focus();
-  	}
+// New game
+function new_game() {
+  $.ajax({
+      type  : 'POST',
+      url   : "new_game"
   });
-});
+}
+
+// Start game
+function start_game() {
+    
+  // Username can't contain special characters nor be null
+  if (/^[a-zA-Z0-9]+(?:[\w -]*[a-zA-Z0-9]+)*$/.test($("#username").val()) &&
+    $("#username").val() != "" &&
+    $("#username").val() != null) {
+
+    $.ajax({
+      type  : 'POST',
+      data: { "username" : $("#username").val() },
+      url   : "start_game"
+    });
+
+	} else {
+      alert("Keksi erikoismerkitön nimimerkki!");
+      $("#username").focus();
+	}
+}
 
 // End game
-$(document).ready(function() {
-  $('#end_game_button').on('click', function() {
+function end_game() {
     $.ajax({
       type  : 'POST',
       data  : { "username" : $("#current_player_username").text() },
       url   : "end_game"
-  });
-  });
-});
-
-// New game
-$(document).ready(function() {
-  $('#new_game_button').on('click', function() {
-    $.ajax({
-        type  : 'POST',
-        url   : "new_game"
     });
-  });
-});
+}
+;
 // Function for playing 1 round
-$(document).ready(function() {
-	$('#shuffle_slots_button').on('click', function() {
-		$.ajax({
-	        type  : 'POST',
-	        data  : { "username" : $("#current_player_username").text() },
-	        url   : "shuffle_slots"
-	    });
-	});
-});
+function shuffle_slots() {
+	$.ajax({
+        type  : 'POST',
+        data  : { "username" : $("#current_player_username").text() },
+        url   : "shuffle_slots"
+    });
+}
 
 // Set lower bet
-$(document).ready(function() {
-  $('#bet_lower_button').on('click', function() {
-
-		$.ajax({
-		  type  : 'POST',
-		  data: { "username" : $("#current_player_username").text() },
-		  url   : "bet_lower"
-		});
-
+function bet_lower() {
+	$.ajax({
+	  type  : 'POST',
+	  data: { "username" : $("#current_player_username").text() },
+	  url   : "bet_lower"
 	});
-});
+}
 
 // Set higher bet
-$(document).ready(function() {
-  $('#bet_higher_button').on('click', function() {
+function bet_higher() {
+	$.ajax({
+	  type  : 'POST',
+	  data: { "username" : $("#current_player_username").text() },
+	  url   : "bet_higher"	});
 
-		$.ajax({
-		  type  : 'POST',
-		  data: { "username" : $("#current_player_username").text() },
-		  url   : "bet_higher"
-		});
-
-	});
-});
+}
 
 // Send chat message
-$(document).ready(function() {
-  $('#chat_button').on('click', function() {
+function send_chat() {
     $.ajax({
         type  : 'POST',
         data  : { "message" : $("#message_field").val(),
@@ -15330,19 +15314,16 @@ $(document).ready(function() {
         		},
         url   : "chat"
     });
-  });
-});
+}
 
 // Refresh chat messages
-$(document).ready(function() {
-  $('#refresh_chat_button').on('click', function() {
+function refresh_chat() {
     $.ajax({
         type  : 'POST',
         data  : { "username" : $("#current_player_username").text() },
         url   : "refresh_chat"
     });
-  });
-});
+}
 
 // Wishing luck just for fun
 $(document).ready(function() {

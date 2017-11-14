@@ -2,20 +2,25 @@
 $("#chat_messages").empty();
 $("#message_field").val("");
 <% Chat.all.order("created_at DESC").limit(5).reverse.each do |chat| %>
-	$("#chat_messages").append("<p class='chat_message'>" +
+	$("#chat_messages").append(
+		"<p class='chat_message'>" +
 			"<span class='chat_message_time'><%= chat.created_at.strftime('%H' + ':' + '%M' + ':' + '%S') %> - </span>" +
 			"<span class='chat_message_username'><%= chat.username %></span> " +
-			"<span class='chat_message_content'><%= chat.message %></span></p>");
+			"<span class='chat_message_content'><%= chat.message %></span>" +
+			"</p>"
+			);
 <% end %>
 
 // Refresh high scores
 $("#high_score_table_body").empty();
 <% HighScore.order("game_score DESC").limit(5).each do |high_score| %>
 
-	$("#high_score_table_body").append("<tr>" +
-		"<td>" + "<%= high_score.username %>" + "</td>" +
-		"<td>" + "<%= high_score.game_score.to_s %>" + "</td>" +
-		"</tr>");
+	$("#high_score_table_body").append(
+		"<tr>" +
+			"<td>" + "<%= high_score.username %>" + "</td>" +
+			"<td>" + "<%= high_score.game_score.to_s %>" + "</td>" +
+		"</tr>"
+		);
 <% end %>
 
 // Refresh Jackpot list
@@ -23,6 +28,7 @@ $("#jackpots_table_body").empty();
 <% Jackpot.order("created_at ASC").each do |jackpot| %>
 	$("#jackpots_table_body").append(
 		"<tr>" +
+			"<td><%= jackpot.created_at.strftime('%e' + '.' + '%-m' + '.' + '%Y') %></td>" +
 			"<td><%= jackpot.username %></td>" +
 			"<td><%= jackpot.winning_line %></td>" +
 			"<td><%= jackpot.bet.to_s %></td>" +

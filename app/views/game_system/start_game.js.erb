@@ -1,54 +1,146 @@
-// Hide/Show elements that are and are not needed
-$(".start_game").css("display", "none");
-$(".chat").css("display", "block");
-$(".game_on").css("display", "block");
-$(".end_game").css("display", "block");
-$(".high_scores").css("display", "block");
-$(".game_options").css("display", "block");
+<% if @username_in_use %>
+	alert("Käyttäjänimi on jo käytössä!");
+<% else %>
 
-// Override last rounds slots with dollars
-$("#upper_slots_row").text("$ $ $");
-$("#middle_slots_row").text("$ $ $");
-$("#bottom_slots_row").text("$ $ $");
+	// Hide/Show elements that are and are not needed
 
-// Set all the info
-$("#current_player_username").text("<%= @user.username %>");
-$("#game_money_amount").text("<%= @user.game_money %>");
-$("#game_bet_amount").text("<%= @current_bet %>");
-$("#winner").text("Onnea peliin!");
+	$("#start_game_form").detach();
 
-// Refresh chat messages
-$("#chat_messages").empty();
-$("#message_field").val("");
-<% Chat.all.order("created_at DESC").limit(5).reverse.each do |chat| %>
-	$("#chat_messages").append("<p class='chat_message'>" +
-	"<span class='chat_message_time'><%= chat.created_at.strftime('%H' + ':' + '%M' + ':' + '%S') %> - </span>" +
-	"<span class='chat_message_username'><%= chat.username %></span> " +
-	"<span class='chat_message_content'><%= chat.message %></span></p>");
-<% end %>
+	$(".content").append(
+		"<div class='game_on'>" +
+			"<div class='game_options'>" +
+				"<div class='current_player'>" +
+					"<span>Pelaaja: </span>" +
+					"<span id='current_player_username'><%= @user.username %></span>" +
+				"</div>" +
+				"" +
+				"<div id='info_buttons'>" +
+					"<button class='btn btn-default info_buttons' data-toggle='collapse' data-target='#winning_lines'>Voittolinjat</button>" +
+					"" +
+				 	"<%= escape_javascript link_to('Peliohjeet', { controller: 'game_system', action: 'info' }, class: 'btn btn-default', id: 'game_info', data: { modal: true }) %>" +
+				"</div>" +
+				"" +
+				"<div id='winning_lines' class='collapse info_buttons'>" +
+					"<p>" +
+						"A A A = <span id='winning_line_AAA'><%= @AAA %></span><br>" +
+						"B B B = <span id='winning_line_BBB'><%= @BBB %></span><br>" +
+						"C C C = <span id='winning_line_CCC'><%= @CCC %></span><br>" +
+						"A B C = <span id='winning_line_ABC'><%= @ABC %></span><br>" +
+						"<span id='A9'>9 x A = <span id='winning_line_9A'><%= @A9 %></span></span><br>" +
+						"<span id='B9'>9 x B = <span id='winning_line_9B'><%= @B9 %></span></span><br>" +
+						"<span id='C9'>9 x C = <span id='winning_line_9C'><%= @C9 %></span></span>" +
+					"</p>" +
+				"</div>" +
+				"" +
+				"<div class='slots'>" +
+					"<p id='upper_slots_row'>$ $ $</p>" +
+					"<p id='middle_slots_row'>$ $ $</p>" +
+					"<p id='bottom_slots_row'>$ $ $</p>" +
+				"</div>" +
+				"" +
+				"<h3 id='winner'><%= @winning_text %></h3>" +
+				"" +
+				"<button id='shuffle_slots_button' class='btn btn-success' onclick='shuffle_slots()'>Pelaa</button>" +
+				"" +
+				"<br>" +
+				"" +
+				"<div id='bet_div'>" +
+					"<span id='game_money'>Rahaa pelattavana: </span>" +
+					"<span id='game_money_amount'><%= @game_money_amount.to_s %></span>" +
+					"<br>" +
+					"<span id='game_bet'>Panos: </span>" +
+					"<span id='game_bet_amount'><%= @current_bet %></span>" +
+					"<div id='bet_lower' data-url='<%= url_for controller: 'game_system', action: 'bet_lower' %>'>" +
+						"<button id='bet_lower_button' class='btn btn-warning' onclick='bet_lower()'>-</button>" +
+					"</div>" +
+					"<div id='bet_higher' data-url='<%= url_for controller: 'game_system', action: 'bet_higher' %>'>" +
+						"<button id='bet_higher_button' class='btn btn-warning' onclick='bet_higher()'>+</button>" +
+					"</div>" +
+				"</div>" +
+				"" +
+				"<br>" +
+				"" +
+				"<div class='end_game' id='end_game_form'>" +
+					"<button class='btn btn-primary' id='end_game_button' onclick='end_game()'>Lopeta peli</button>" +
+				"</div>" +
+			"</div>" +
+		"</div>"
+		);
 
-// Refresh high scores
-$("#high_score_table_body").empty();
-<% HighScore.order("game_score DESC").limit(5).each do |high_score| %>
+	// Refresh chat messages
+	$(".content").append(
+		"<div class='chat'>" +
+			"<p>Vieraskirja-chat</p>" +
+			"<div id='chat_messages'>" +
+				"<% Chat.order('created_at DESC').limit(5).reverse.each do |chat| %>" +
+					"<p class='chat_message'>" +
+						"<span class='chat_message_time'><%= chat.created_at.strftime('%H' + ':' + '%M' + ':' + '%S') %> - </span>" +
+						"<span class='chat_message_username'><%= chat.username %> </span>" +
+						"<span class='chat_message_content'> <%= chat.message %></span>" +
+					"</p>" +
+				"<% end %>" +
+			"</div>" +
+			"" +
+			"<label for='message_field'>Kirjoita viesti</label>" +
+			"<br>" +
+			"<input type='text' name='message' id='message_field' maxlength='140'>" +
+			"<button class='btn btn-danger' id='chat_button' onclick='send_chat()'>Chat!</button>" +
+			"<br>" +
+			"<button class='btn' id='refresh_chat_button' onclick='refresh_chat()'>Päivitä Chat</button>" +
+		"</div>"
+		);
 
-	$("#high_score_table_body").append("<tr>" +
-		"<td>" + "<%= high_score.username %>" + "</td>" +
-		"<td>" + "<%= high_score.game_score.to_s %>" + "</td>" +
-		"</tr>");
-<% end %>
+	// Refresh high scores
+	$(".content").append(
+		"<div class='high_scores'>" +
+			"<h3>High Scores</h3>" +
+			"<table class='table table-bordered' id='high_scores_table'>" +
+				"<thead>" +
+					"<tr>" +
+						"<th>Pelaaja</th>" +
+						"<th>Pisteet</th>" +
+					"</tr>" +
+				"</thead>" +
+				"<tbody id='high_score_table_body'>" +
+					"<% HighScore.order('game_score DESC').limit(5).each do |high_score| %>" +
+						"<tr>" +
+							"<td><%= high_score.username %></td>" +
+							"<td><%= high_score.game_score.to_s %></td>" +
+						"</tr>" +
+					"<% end %>" +
+				"</tbody>" +
+			"</table>" +
+		"</div>"
+		);
 
-
-// Refresh Jackpot list
-$("#jackpots_element").css("display", "block");
-
-$("#jackpots_table_body").empty();
-<% Jackpot.order("created_at ASC").each do |jackpot| %>
-	$("#jackpots_table_body").append(
-		"<tr>" +
-			"<td><%= jackpot.username %></td>" +
-			"<td><%= jackpot.winning_line %></td>" +
-			"<td><%= jackpot.bet.to_s %></td>" +
-			"<td><%= jackpot.winning_price.to_s %></td>" +
-		"</tr>"
+	// Refresh jackpots
+	$(".content").append(
+		"<div class='jackpots_element'>" +
+			"<button class='btn btn-default jackpots_button' data-toggle='collapse' data-target='#jackpots'>Voitetut Jackpotit</button>" +
+			"<div id='jackpots' class='collapse'>" +
+				"<table id='jackpots_table'>" +
+					"<thead>" +
+						"<tr>" +
+							"<th>Aika</th>" +
+							"<th>Pelaaja</th>" +
+							"<th>Linja</th>" +
+							"<th>Panos</th>" +
+							"<th>Voitto</th>" +
+						"</tr>" +
+					"</thead>" +
+					"<tbody id='jackpots_table_body'>" +
+						"<% Jackpot.order('created_at ASC').each do |jackpot| %>" +
+							"<tr class='jackpot_win'>" +
+								"<td><%= jackpot.created_at.strftime('%e' + '.' + '%-m' + '.' + '%Y') %></td>" +
+								"<td><%= jackpot.username %></td>" +
+								"<td><%= jackpot.winning_line %></td>" +
+								"<td><%= jackpot.bet.to_s %></td>" +
+								"<td><%= jackpot.winning_price.to_s %></td>" +
+							"</tr>" +
+						"<% end %>" +
+					"</tbody>" +
+				"</table>" +
+			"</div>" +
+		"</div>"
 		);
 <% end %>

@@ -17,9 +17,9 @@ html, body, .content {
 	margin-top: 10px;
 }
 
-.high_scores {
+/*.high_scores {
 	display: none;
-}
+}*/
 
 table#high_scores_table {
 	width: auto;
@@ -27,23 +27,25 @@ table#high_scores_table {
 
 table#jackpots_table th {
 	padding: 5px;
+	font-size: 14px;
 }
 
 table#jackpots_table td {
 	text-align: center;
+	font-size: 12px;
 }
 
-#jackpots_element {
+/*#jackpots_element {
 	display: none;
-}
+}*/
 
-.chat {
+/*.chat {
 	display: none;
 }
 
 .game_on {
 	display: none;
-}
+}*/
 
 #start_game_button {
 	font-size: 20px;
@@ -52,7 +54,7 @@ table#jackpots_table td {
 .end_game {
 	padding-top: 4px;
 	padding-bottom: 4px;
-	display: none;
+	/*display: none;*/
 }
 
 #shuffle_slots_button {
@@ -60,9 +62,9 @@ table#jackpots_table td {
 	font-size: 20px;
 }
 
-.game_over {
+/*.game_over {
 	display: none;
-}
+}*/
 
 .game_over.end_game_text {
 	color: red;
@@ -107,9 +109,9 @@ table#jackpots_table td {
 	padding-top: 4px;
 }
 
-#winning_prices {
+/*#winning_prices {
 	display: none;
-}
+}*/
 
 #winning_lines {
 	font-size: 16px;

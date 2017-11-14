@@ -2,8 +2,11 @@
 $("#chat_messages").empty();
 $("#message_field").val("");
 <% Chat.all.order("created_at DESC").limit(5).reverse.each do |chat| %>
-	$("#chat_messages").append("<p class='chat_message'>" +
-		"<span class='chat_message_time'><%= chat.created_at.strftime('%H' + ':' + '%M' + ':' + '%S') %> - </span>" +
-		"<span class='chat_message_username'><%= chat.username %></span> " +
-		"<span class='chat_message_content'><%= chat.message %></span></p>");
+	$("#chat_messages").append(
+		"<p class='chat_message'>" +
+			"<span class='chat_message_time'><%= chat.created_at.strftime('%H' + ':' + '%M' + ':' + '%S') %> - </span>" +
+			"<span class='chat_message_username'><%= chat.username %></span> " +
+			"<span class='chat_message_content'><%= chat.message %></span>" +
+		"</p>"
+		);
 <% end %>

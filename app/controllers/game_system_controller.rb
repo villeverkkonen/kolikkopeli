@@ -193,13 +193,21 @@ class GameSystemController < ApplicationController
   end
 
   def start_game
-    @user = User.find_or_create_by(username: params[:username])
-    @game_money = 25
-    @current_bet = 1
+    @user = User.find_by(username: params[:username])
+    if !@user.nil?
+      @username_in_use = true
+    else
+      @user = User.new
+      @user.username = params[:username]
+      @game_money_amount = 25
+      @current_bet = 1
 
-    @user.game_money = @game_money
-    @user.current_bet = @current_bet
-    @user.save
+      @user.game_money = @game_money_amount
+      @user.current_bet = @current_bet
+      @user.save
+    end
+
+    @winning_text = "Onnea peliin!"
 
     respond_to do |format|
       format.js

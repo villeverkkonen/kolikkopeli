@@ -1,7 +1,6 @@
 # kolikkopeli
 
-<br>
-Sovellus Herokussa: https://kolikkopeli.herokuapp.com/
+Sovellus Herokussa: https://kolikkopeli.herokuapp.com/<br>
 <br>
 
 Pelaajalla on alussa käytössä 25 rahaa.<br>

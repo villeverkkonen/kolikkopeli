@@ -62,4 +62,6 @@ gem 'bootstrap-sass', '~> 3.3.6'
 # respond_to
 gem 'responders'
 
+gem "nokogiri", ">= 1.8.5"
+
 ruby "2.2.6"

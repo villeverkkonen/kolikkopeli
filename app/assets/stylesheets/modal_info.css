@@ -16,10 +16,10 @@ div.modal-content {
 
 .modal-dialog {
 	width: 50%;
+	margin: auto;
 }
 
 div.modal-content div.modal-header {
-	
     width: 50%;
     border: none;
 }
@@ -30,4 +30,10 @@ div.modal-content div.modal-header {
 
 div.modal-header button {
 	float: left;
+}
+
+@media screen and (min-width: 650px) {
+	.modal-dialog {
+		width: 80%;
+	}
 }

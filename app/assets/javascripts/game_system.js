@@ -36,13 +36,35 @@ function send_chat() {
     });
 }
 
-// Refresh chat messages
-function refresh_chat() {
-    $.ajax({
-        type  : 'POST',
-        data  : { "username" : $("#current_player_username").text() },
-        url   : "refresh_chat"
-    });
+function animate_shuffle(upper_slots, middle_slots, bottom_slots) {
+    $("#upper_slots_row").text(bottom_slots);
+    $("#middle_slots_row").text(upper_slots);
+    $("#bottom_slots_row").text(middle_slots);
+    setTimeout(function() {
+      $("#upper_slots_row").text(middle_slots);
+      $("#middle_slots_row").text(bottom_slots);
+      $("#bottom_slots_row").text(upper_slots);
+    }, 150);
+    setTimeout(function() {
+      $("#upper_slots_row").text(middle_slots);
+      $("#middle_slots_row").text(upper_slots);
+      $("#bottom_slots_row").text(bottom_slots);
+    }, 150);
+    setTimeout(function() {
+      $("#upper_slots_row").text(bottom_slots);
+      $("#middle_slots_row").text(middle_slots);
+      $("#bottom_slots_row").text(upper_slots);
+    }, 150);
+    setTimeout(function() {
+      $("#upper_slots_row").text(upper_slots);
+      $("#middle_slots_row").text(middle_slots);
+      $("#bottom_slots_row").text(bottom_slots);
+    }, 150);
+    setTimeout(function() {
+      $("#upper_slots_row").text(upper_slots);
+      $("#middle_slots_row").text(middle_slots);
+      $("#bottom_slots_row").text(bottom_slots);
+    }, 150);
 }
 
 // Wishing luck just for fun

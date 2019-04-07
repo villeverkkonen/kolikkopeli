@@ -55,13 +55,12 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # jQuery
 gem 'jquery-rails'
+gem 'jquery-ui-rails' , '~> 6.0'
 
 # Bootstrap
-gem 'bootstrap-sass', '~> 3.3.6'
+gem 'bootstrap'
 
 # respond_to
 gem 'responders'
 
 gem "nokogiri", ">= 1.8.5"
-
-ruby "2.2.6"

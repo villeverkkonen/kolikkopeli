@@ -1,6 +1,7 @@
 class GameSystemController < ApplicationController
 
   before_action :set_slots, :set_winning_prices
+  before_action :set_datas
 
   respond_to :html, :json, :js
 
@@ -45,11 +46,9 @@ class GameSystemController < ApplicationController
         @game_over = true
         end_game
       else
-
         @upper_slots = append_slots_to_string(upper_slots_array)
         @middle_slots = append_slots_to_string(middle_slots_array)
         @bottom_slots = append_slots_to_string(bottom_slots_array)
-
       end
     else
       @user_not_found = true
@@ -206,7 +205,6 @@ class GameSystemController < ApplicationController
       @user.current_bet = @current_bet
       @user.save
     end
-
     @winning_text = "Onnea peliin!"
 
     respond_to do |format|
@@ -312,11 +310,6 @@ class GameSystemController < ApplicationController
       @chat.save
     end
 
-    # Save only 5 newest messages
-    # if Chat.count > 5
-    #   Chat.all.order("created_at ASC").first.destroy
-    # end
-
     respond_to do |format|
       format.js
     end
@@ -331,11 +324,11 @@ class GameSystemController < ApplicationController
   private
     def set_slots
       @slots = [
-      "A", "A", "A", "A", "A", "A", "A",
-      "B", "B", "B", "B", "B", "B",
-      "C", "C", "C", "C", "C",
-      "#"
-    ]
+        "A", "A", "A", "A", "A", "A", "A",
+        "B", "B", "B", "B", "B", "B",
+        "C", "C", "C", "C", "C",
+        "#"
+      ]
     end
 
     def set_winning_prices
@@ -346,5 +339,11 @@ class GameSystemController < ApplicationController
       @A9 = 20
       @B9 = 40
       @C9 = 60
+    end
+
+    def set_datas
+      @messages = Chat.order("created_at DESC").limit(5).reverse
+      @highscores = HighScore.order("game_score DESC").limit(5)
+      @jackpots = Jackpot.order("created_at ASC")
     end
 end

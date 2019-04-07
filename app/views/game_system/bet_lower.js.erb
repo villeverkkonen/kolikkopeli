@@ -13,22 +13,9 @@
 	$("#winning_line_9B").text("<%= @B9 * @current_bet %>");
 	$("#winning_line_9C").text("<%= @C9 * @current_bet %>");
 
-	// Refresh chat messages
-	$("#chat_messages").empty();
-	$("#message_field").val("");
-	<% Chat.all.order("created_at DESC").limit(5).reverse.each do |chat| %>
-		$("#chat_messages").append(
-			"<p class='chat_message'>" +
-				"<span class='chat_message_time'><%= chat.created_at.strftime('%H' + ':' + '%M' + ':' + '%S') %> - </span>" +
-				"<span class='chat_message_username'><%= chat.username %></span> " +
-				"<span class='chat_message_content'><%= chat.message %></span>" +
-			"</p>"
-			);
-	<% end %>
-
 	// Refresh high scores
 	$("#high_score_table_body").empty();
-	<% HighScore.order("game_score DESC").limit(5).each do |high_score| %>
+	<% @highscores.each do |high_score| %>
 
 		$("#high_score_table_body").append(
 			"<tr>" +
@@ -40,7 +27,7 @@
 
 	// Refresh Jackpot list
 	$("#jackpots_table_body").empty();
-	<% Jackpot.order("created_at ASC").each do |jackpot| %>
+	<% @jackpots.each do |jackpot| %>
 		$("#jackpots_table_body").append(
 			"<tr>" +
 				"<td><%= jackpot.created_at.strftime('%e' + '.' + '%-m' + '.' + '%Y') %></td>" +

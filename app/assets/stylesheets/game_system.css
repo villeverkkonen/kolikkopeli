@@ -1,10 +1,12 @@
 html, body, .content {
-	background-color: #F0F8FF;
+	background-color: #F0F8FF !important;
 	font-size: 18px;
 }
 
 .content {
 	padding: 20px;
+	margin: auto;
+	width: fit-content;
 }
 
 .slots {
@@ -13,13 +15,12 @@ html, body, .content {
 	background-color: #DCDCDC;
 	font-size: 38px;
 	text-align: center;
-	padding-top: 10px;
 	margin-top: 10px;
 }
 
-/*.high_scores {
-	display: none;
-}*/
+.highscores {
+	margin-top: 10px;
+}
 
 table#high_scores_table {
 	width: auto;
@@ -35,18 +36,6 @@ table#jackpots_table td {
 	font-size: 12px;
 }
 
-/*#jackpots_element {
-	display: none;
-}*/
-
-/*.chat {
-	display: none;
-}
-
-.game_on {
-	display: none;
-}*/
-
 #start_game_button {
 	font-size: 20px;
 }
@@ -54,17 +43,11 @@ table#jackpots_table td {
 .end_game {
 	padding-top: 4px;
 	padding-bottom: 4px;
-	/*display: none;*/
 }
 
 #shuffle_slots_button {
-	padding-bottom: 6px;
 	font-size: 20px;
 }
-
-/*.game_over {
-	display: none;
-}*/
 
 .game_over.end_game_text {
 	color: red;
@@ -94,6 +77,11 @@ table#jackpots_table td {
 	padding-top: 6px;
 }
 
+.bet_buttons {
+	margin-left: 10px;
+	display: inline-block;
+}
+
 #bet_lower {
 	padding: 2px;
 	display: inline-block;
@@ -109,9 +97,9 @@ table#jackpots_table td {
 	padding-top: 4px;
 }
 
-/*#winning_prices {
-	display: none;
-}*/
+#chat_button {
+	margin-top: 3px;
+}
 
 #winning_lines {
 	font-size: 16px;
@@ -119,6 +107,7 @@ table#jackpots_table td {
 	width: 89.825px;
 	padding: 3px;
 	text-align: center;
+	height: auto;
 }
 
 #A9 {
@@ -131,6 +120,10 @@ table#jackpots_table td {
 
 #C9 {
 	color: #ef9b3b;
+}
+
+.chat {
+	margin-top: 10px;
 }
 
 .chat_message {
@@ -148,4 +141,9 @@ table#jackpots_table td {
 
 .chat_message_content {
 	font-size: 14px;
+}
+
+.collapse.show {
+  visibility: visible;
+  overflow: none;
 }

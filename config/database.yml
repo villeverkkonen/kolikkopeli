@@ -9,7 +9,7 @@ default: &default
   encoding: unicode
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   username: kolikkopeli
-  password: kolikkopeli123
+  password: <%= Rails.application.secrets[:database_password] %>
 
 development:
   <<: *default
@@ -26,4 +26,4 @@ production:
   <<: *default
   database: kolikkopeli_production
   username: kolikkopeli
-  password: kolikkopeli
+  password: <%= Rails.application.secrets[:database_password] %>

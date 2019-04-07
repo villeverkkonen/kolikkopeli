@@ -25,7 +25,7 @@
 		"</div>"
 		);
 
-	<% HighScore.order("game_score DESC").limit(5).each do |high_score| %>
+	<% @highscores.each do |high_score| %>
 
 		// Highlight the last rounds score if it got into HighScore
 		// If current rounds username and score is found in HighScore, presume it's the right one
@@ -64,25 +64,22 @@
 		"</div>"
 	 	);
 
+	// Refresh chat messages
 	$(".content").append(
 		"<div class='chat'>" +
-			"<p>Vieraskirja-chat</p>" +
+			"<p>Chat</p>" +
 			"<div id='chat_messages'>" +
-				"<% Chat.order('created_at DESC').limit(5).reverse.each do |chat| %>" +
+				"<% @messages.each do |message| %>" +
 					"<p class='chat_message'>" +
-						"<span class='chat_message_time'><%= chat.created_at.strftime('%H' + ':' + '%M' + ':' + '%S') %> - </span>" +
-						"<span class='chat_message_username'><%= chat.username %> </span>" +
-						"<span class='chat_message_content'> <%= chat.message %></span>" +
+						"<span class='chat_message_time'><%= message.created_at.strftime('%H' + ':' + '%M' + ':' + '%S') %> - </span>" +
+						"<span class='chat_message_username'><%= message.username %> </span>" +
+						"<span class='chat_message_content'> <%= message.message %></span>" +
 					"</p>" +
 				"<% end %>" +
 			"</div>" +
-			"" +
-			"<label for='message_field'>Kirjoita viesti</label>" +
-			"<br>" +
 			"<input type='text' name='message' id='message_field' maxlength='140'> " +
-			"<button class='btn btn-danger' id='chat_button' onclick='send_chat()'>Chat!</button>" +
 			"<br>" +
-			"<button class='btn' id='refresh_chat_button' onclick='refresh_chat()'>Päivitä Chat</button>" +
+			"<button class='btn btn-danger' id='chat_button' onclick='send_chat()'>Lähetä</button>" +
 			"<br><br>" +
 		"</div>"
 	);
@@ -103,7 +100,7 @@
 						"</tr>" +
 					"</thead>" +
 					"<tbody id='jackpots_table_body'>" +
-						"<% Jackpot.order('created_at ASC').each do |jackpot| %>" +
+						"<% @jackpots.each do |jackpot| %>" +
 							"<tr class='jackpot_win'>" +
 								"<td><%= jackpot.created_at.strftime('%e' + '.' + '%-m' + '.' + '%Y') %></td>" +
 								"<td><%= jackpot.username %></td>" +

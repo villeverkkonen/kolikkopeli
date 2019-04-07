@@ -10,13 +10,13 @@
 
 <script>
 	// Update chat messages every 5 seconds
-	setInterval(function() {
-		if ($("#chat_messages") && $("#message_field")) {
-			$.ajax({
-		        type  : 'POST',
-		        data  : { "username" : $("#current_player_username").text() },
-		        url   : "refresh_chat"
-		    });
-		}
-	}, 5 * 1000);
+	// setInterval(function() {
+	// 	if ($("#chat_messages") && $("#message_field")) {
+	// 		$.ajax({
+	// 	        type  : 'POST',
+	// 	        data  : { "username" : $("#current_player_username").text() },
+	// 	        url   : "refresh_chat"
+	// 	    });
+	// 	}
+	// }, 5 * 1000);
 </script>

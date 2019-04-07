@@ -183,7 +183,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
-  bootstrap
+  bootstrap (~> 4.0.0.alpha6)
   byebug
   capybara (~> 2.13)
   coffee-rails (~> 4.2)

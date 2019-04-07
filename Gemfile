@@ -58,7 +58,7 @@ gem 'jquery-rails'
 gem 'jquery-ui-rails' , '~> 6.0'
 
 # Bootstrap
-gem 'bootstrap'
+gem 'bootstrap', '~> 4.0.0.alpha6'
 
 # respond_to
 gem 'responders'

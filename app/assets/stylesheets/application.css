@@ -2,5 +2,7 @@
  *= require_tree .
  *= require jquery-ui
  *= require twitter-bootstrap-static/bootstrap
+ *= require game_system.css
+ *= require modal_info.css
  *= require_self
  */

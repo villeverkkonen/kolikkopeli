@@ -64,3 +64,5 @@ gem 'bootstrap', '~> 4.0.0.alpha6'
 gem 'responders'
 
 gem "nokogiri", ">= 1.8.5"
+
+ruby "2.2.6"

@@ -65,7 +65,4 @@ gem 'responders'
 
 gem "nokogiri", ">= 1.8.5"
 
-# For assets in production
-gem 'rails_12factor', group: :production
-
 ruby "2.2.6"

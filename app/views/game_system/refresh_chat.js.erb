@@ -1,6 +1,5 @@
 // Refresh chat messages
 $("#chat_messages").empty();
-$("#message_field").val("");
 <% @messages.each do |chat| %>
 	$("#chat_messages").append(
 		"<p class='chat_message'>" +

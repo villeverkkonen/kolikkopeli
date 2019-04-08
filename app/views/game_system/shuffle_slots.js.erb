@@ -66,6 +66,26 @@
 			"</div>"
 		 	);
 
+		// Refresh chat messages
+		$(".content").append(
+			"<div class='chat'>" +
+				"<p>Chat</p>" +
+				"<div id='chat_messages'>" +
+					"<% @messages.each do |message| %>" +
+						"<p class='chat_message'>" +
+							"<span class='chat_message_time'><%= message.created_at.strftime('%H' + ':' + '%M' + ':' + '%S') %> - </span>" +
+							"<span class='chat_message_username'><%= message.username %> </span>" +
+							"<span class='chat_message_content'> <%= message.message %></span>" +
+						"</p>" +
+					"<% end %>" +
+				"</div>" +
+				"<input type='text' name='message' id='message_field' maxlength='140'> " +
+				"<br>" +
+				"<button class='btn btn-danger' id='chat_button' onclick='send_chat()'>Lähetä</button>" +
+				"<br><br>" +
+			"</div>"
+		);
+
 		// Refresh Jackpot list
 		$(".content").append(
 			"<div class='jackpots_element'>" +

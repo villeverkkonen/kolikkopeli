@@ -63,6 +63,6 @@ gem 'twitter-bootstrap-rails'
 # respond_to
 gem 'responders'
 
-gem "nokogiri", ">= 1.8.5"
+gem "nokogiri", ">= 1.10.4"
 
 ruby "2.3.3"

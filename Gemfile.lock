@@ -192,7 +192,7 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   jquery-rails
   jquery-ui-rails (~> 6.0)
-  nokogiri (>= 1.8.5)
+  nokogiri (>= 1.10.4)
   pg
   puma (~> 3.7)
   rails (~> 5.1.4)

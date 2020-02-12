@@ -12,6 +12,6 @@ Jos rahat pelaa loppuun, on lopputulos 0.<br>
 Panoksen voi valita 1-5 väliltä.<br>
 Sivulla on myös vieraskirjamainen chat sekä lista voitetuista jackpoteista.<br>
 
-![overview](https://github.com/villeverkkonen/kolikkopeli/tree/master/documentation/overview.png)
+![overview](https://github.com/villeverkkonen/kolikkopeli/blob/master/documentation/overview.png)
 
-![highscores](https://github.com/villeverkkonen/kolikkopeli/tree/master/documentation/highscores.png)
+![highscores](https://github.com/villeverkkonen/kolikkopeli/blob/master/documentation/highscores.png)

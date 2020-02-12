@@ -15,4 +15,8 @@
 //= require jquery-ui
 //= require twitter/bootstrap
 //= require turbolinks
+//= require jquery.i18n.js
+//= require jquery.i18n.messagestore.js
+//= require jquery.i18n.parser.js
+//= require jquery.i18n.emitter.js
 //= require_tree .

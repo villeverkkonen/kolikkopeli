@@ -65,4 +65,4 @@ gem 'responders'
 
 gem "nokogiri", ">= 1.8.5"
 
-ruby "2.2.6"
+ruby "2.3.3"
